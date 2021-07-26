@@ -1,35 +1,6 @@
 from time import time
-start=time()
+from HamPath import *
 nodes=[[0, 0], [2, 2], [2, 0], [1, 2]]
-connections=[[0, 1], [1, 2], [1, 3], [2, 3]]
-node_count=len(nodes)
-def find(node):
-    arr=[]
-    for x in connections:
-        if x[0]==node: arr.append(x)
-        elif x[1]==node: arr.append([node,x[0]])
-    return arr
-def search(node,arr):
-    for a in range(len(con[node])):
-        x=con[node][a][1]
-        if x not in arr:
-            arr.append(x)
-            search(x,arr)
-            del arr[-1]
-    if len(arr)==node_count:
-        ham_paths.append(str(arr))
-        print("ham paths:",arr)
-con=[find(x) for x in range(node_count)]
-def ham(node):
-    arr=[]
-    arr.append(node)
-    search(node,arr)
-ham_paths=[]
-for x in range(node_count):
-    ham(x)
-end=time()
-print("Execution time for finding hamiltonian paths: ")
-print(str(end-start)+" seconds")
 import turtle
 import math
 x,y=nodes[0],nodes[1]
@@ -43,7 +14,7 @@ def anima(nodes,con):
     for a in range(node_count):
         t.goto(updated[a])
         t.dot(10)
-        t.write(("("+str(nodes[a][0])+" ,"+str(nodes[a][1])+")")) 
+        t.write(f"({nodes[a][0]}, {nodes[a][1]})")
     for element in connections:
         t.pu()
         x,y=element[0],element[1]
@@ -52,11 +23,7 @@ def anima(nodes,con):
         t.goto(updated[y])
     t.color("green")
     t.pensize(3)
-    h=list(ham_paths[0])
-    del h[0]
-    del h[-1]
-    h="".join(h)
-    h=h.split(", ")
+    h = all_paths[0]
     t.pu()
     t.goto(updated[int(h[0])])
     t.pd()
@@ -64,4 +31,4 @@ def anima(nodes,con):
         t.goto(updated[int(h[x])])
 anima(nodes,connections)
 print("Execution time for animations: ")
-print(str(time()-end)+" seconds")
+print(f"{time()-end} seconds")
